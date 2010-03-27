@@ -1,0 +1,59 @@
+for YieldCurve
+ loadable smoothing methods
+ straight line, mean of two arcs, tbd
+
+Portfolio
+ hasmany [ Instruments ]
+ price_as_of($date, $ycurve) ?
+ txn_history() ? <-- should be elsewhere
+
+YieldCurve
+ --> points sorted ArrayRef[ {duration => $num_days, yield=> $num} ]
+
+CashFlow
+ --> has date => DateTime
+ --> has amount => 'number'
+
+CashFlowStream -> has ArrayRef[CashFlow]
+Annuity isa CashFlowStream
+
+Bond has
+ --> Principal
+ --> Coupon
+ --> IssueDate
+ --> MaturityDate
+ --> CouponDates (ArrayRef DateTime)
+price_as_of($date, $yield_curve);
+
+FixedInterestAmortizingLoan has
+ --> Principal
+ --> Annual Interest Rate (APR probs)
+ --> Periods
+ --> Previous Payments [date, payment]
+ --> DateOriginated
+ --> CashFlowStream (Ammortizing payments)
+     --> derived from Periods, Principal, Interest Rate
+ -- CHECK at BUILD time to make sure they all match if all given
+
+
+FixedRateNonAmortizingLoan
+ --> has rate
+ --> has 'cashflows'
+ --> balance_as_of()
+ --> adb( $beginning, $end )
+ --> interest_expense_for_period( $beginning, $end)
+
+Revolving Line Of Credit is FixedRateNonAmortizingLoan
+ --> added back interval? (when is interest capitalized?)
+ --> compound interval
+ --> 'grace_period' <-- maybe should be variable?
+
+
+VariableRateLoan ?
+ --> formula that implements rate?
+
+Revolver is VariableRateLoan
+ -->
+
+
+Perpetuity?

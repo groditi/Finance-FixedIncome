@@ -35,6 +35,11 @@ sub cf_discount_rate {
   return $discount_rate;
 }
 
+sub pv_of_perpetuity {
+  my($cf, $rate) = @_;
+  return $cf / $rate;
+}
+
 1;
 
 __END__;

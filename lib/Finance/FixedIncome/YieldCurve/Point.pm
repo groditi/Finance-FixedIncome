@@ -3,7 +3,7 @@ package Finance::FixedIncome::YieldCurve::Point;
 use Moose;
 use MooseX::Types::Moose;
 
-has maturity => (
+has days_to_maturity => (
   is => 'ro',
   isa => Int,
   required => 1,

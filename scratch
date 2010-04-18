@@ -22,23 +22,18 @@ sub arc_origin_from_radius_and_points {
   my $r = shift;
   my($A, $B, $C) = sort { $a->[0] <=> $b->[0] } @_;
 
-  my $delta = [ @$A ];
-  my $P = [ 0, 0 ]; # $A - $A
-  my $Q = [ ($C->[0] - $A->[0]), ($C->[1] - $A->[1]) ]; #C-A
-
-
-  my($a, $b) = @$Q;
+  my($a, $b) = ( ($C->[0] - $A->[0]), ($C->[1] - $A->[1]) ); #C-A;
   $|=1;
   my $pm = ($a / 2) * sqrt( ((4 * $r**2) / ($a**2 + $b**2 )) - 1 );
     
   for my $y ( (($b / 2) + $pm), (($b / 2) - $pm) ){
     my $x = ($a**2 + $b**2 - (2 * $b * $y) ) / (2 * $a);
     
-    my $xc = $x + $delta->[0];
-    my $yc = $y + $delta->[1];
+    my $xc = $x + $A->[0];
+    my $yc = $y + $A->[1];
 
     my $rB = (($B->[0] - $xc)**2 + ($B->[1] - $yc)**2);
-    next unless (($r**2 - $rB) / $r**2) < .00001;
+    next unless abs(($r**2 - $rB) / $r**2) < .00001;
 
     return ($xc, $yc);
   }
